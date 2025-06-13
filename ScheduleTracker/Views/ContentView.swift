@@ -103,7 +103,7 @@ struct ContentView: View {
         Task {
             do {
                 let service = try APIServicesContainer()
-                let threadService = try await service.threadService.getRouteStations(uid: "ZF-1005_250630_c59268_12")
+                let threadService = try await service.threadService.getRouteStations(uid: "A4-7071_251026_c60780_12")
                 
                 print("Succesfully fetched threadRouteStations: \(threadService)")
             }
@@ -130,7 +130,7 @@ struct ContentView: View {
         Task {
             do {
                 let service = try APIServicesContainer()
-                let carrier = try await service.carrierService.getCarrierInfo(code: "153")
+                let carrier = try await service.carrierService.getCarrierInfo(code: "60780")
         
                 print("Successfully fetched carrier: \(carrier)")
             } catch {

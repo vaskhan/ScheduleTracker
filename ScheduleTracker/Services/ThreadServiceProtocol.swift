@@ -8,7 +8,7 @@
 import OpenAPIRuntime
 import OpenAPIURLSession
 
-typealias Thread = Components.Schemas.ThreadStationsResponse
+typealias Thread = Components.Schemas.Thread
 
 protocol ThreadServiceProtocol {
     func getRouteStations(uid: String) async throws -> Thread
@@ -25,7 +25,7 @@ final class ThreadService: ThreadServiceProtocol {
     }
     
     func getRouteStations(uid: String) async throws -> Thread {
-        let response = try await client.getRouteStations(query: .init(apikey: apikey, uid: uid))
+        let response = try await client.getThread(query: .init(apikey: apikey, uid: uid))
         
         return try response.ok.body.json
     }

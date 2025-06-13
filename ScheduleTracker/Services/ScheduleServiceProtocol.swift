@@ -8,7 +8,7 @@
 import OpenAPIRuntime
 import OpenAPIURLSession
 
-typealias Schedule = Components.Schemas.ScheduleResponse
+typealias Schedule = Components.Schemas.ScheduleSchema
 
 protocol ScheduleServiceProtocol {
     func getStationSchedule(station: String) async throws -> Schedule
@@ -25,7 +25,7 @@ final class ScheduleService: ScheduleServiceProtocol {
     }
     
     func getStationSchedule(station: String) async throws -> Schedule {
-        let response = try await client.getStationSchedule(query: .init(apikey: apikey, station: station))
+        let response = try await client.getSchedule(query: .init(apikey: apikey, station: station))
         
         return try response.ok.body.json
     }

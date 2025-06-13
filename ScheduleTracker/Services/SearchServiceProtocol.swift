@@ -8,7 +8,7 @@
 import OpenAPIRuntime
 import OpenAPIURLSession
 
-typealias Search = Components.Schemas.Segments
+typealias Search = Components.Schemas.SearchSchema
 
 protocol SearchServiceProtocol {
     func getSchedualBetweenStations(from: String, to: String) async throws -> Search
@@ -25,7 +25,7 @@ final class SearchService: SearchServiceProtocol {
     }
     
     func getSchedualBetweenStations(from: String, to: String) async throws -> Search {
-        let response = try await client.getSchedualBetweenStations(query: .init(apikey: apikey, from: from, to: to))
+        let response = try await client.getSearch(query: .init(apikey: apikey, from: from, to: to))
         
         return try response.ok.body.json
     }
