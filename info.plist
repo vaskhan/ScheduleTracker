@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+   info.plist
+   ScheduleTracker
+
+   Created by Василий Ханин on 24.06.2025.
+   Copyright (c) 2025 ___ORGANIZATIONNAME___. All rights reserved.
+-->
+<plist version="1.0">
+<dict>
+    <key>Launch Screen</key>
+    <dict>
+        <key>Image Name</key>
+        <string>splashScreenn</string>
+    </dict>
+</dict>
+</plist>
