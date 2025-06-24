@@ -11,7 +11,7 @@ import SwiftUI
 struct ScheduleTrackerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            mainScreenView()
         }
     }
 }

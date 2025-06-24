@@ -11,7 +11,7 @@ import OpenAPIURLSession
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image("bus")
+            Image(systemName: "bus")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("Расписание")
@@ -25,7 +25,7 @@ struct ContentView: View {
 //            testCopyright()
 //            testSearchRoute()
 //            testScheduleStation()
-//            testThreadService()
+            testThreadService()
 //            testNearestSettlement()
 //            testCarrierInfo()
 //            testAllStations()
