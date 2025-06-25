@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct ScheduleTrackerApp: App {
+    @AppStorage("isDarkMode") private var isDarkMode = false
+    
     var body: some Scene {
         WindowGroup {
-            mainScreenView()
+            MainScreenView()
+                .preferredColorScheme(isDarkMode ? .dark : .light)
         }
     }
 }
