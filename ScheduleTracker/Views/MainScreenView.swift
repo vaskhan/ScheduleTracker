@@ -1,5 +1,5 @@
 //
-//  mainScreenView.swift
+//  MainScreenView.swift
 //  ScheduleTracker
 //
 //  Created by Василий Ханин on 24.06.2025.
@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct MainScreenView: View {
+    
+    @AppStorage("isDarkMode") private var isDarkMode = false
     @State private var viewModel = MockReelsModel()
     @State private var fromTofromTo = true
-    @AppStorage("isDarkMode") private var isDarkMode = false
     @State private var showAgreement = false
     
     var body: some View {
@@ -36,7 +37,7 @@ struct MainScreenView: View {
                         
                         HStack {
                             VStack(alignment: .leading, spacing: 0) {
-                                Button(action: {}) {
+                                NavigationLink(destination: ChangeCityView()) {
                                     Text(fromTofromTo ? "Откуда" : "Куда")
                                         .foregroundColor(Color("grayUniversal"))
                                         .padding(.vertical, 14)
@@ -45,7 +46,7 @@ struct MainScreenView: View {
                                     
                                 }
                                 
-                                Button(action: {}) {
+                                NavigationLink(destination: ChangeCityView()) {
                                     Text(fromTofromTo ? "Куда" : "Откуда")
                                         .foregroundColor(Color("grayUniversal"))
                                         .padding(.vertical, 14)
