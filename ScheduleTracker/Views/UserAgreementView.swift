@@ -19,7 +19,8 @@ struct UserAgreementView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: { dismiss() }) {
                         Image("leftChevron")
-                            .renderingMode(.original)
+                            .renderingMode(.template)
+                            .foregroundColor(Color("dayOrNightColor"))
                     }
                 }
                 

@@ -10,35 +10,47 @@ import SwiftUI
 struct ChangeCityView: View {
     @State private var searchText = ""
     @Environment(\.dismiss) var dismiss
+    @ObservedObject var coordinator: NavigationCoordinator
+    let fromField: Bool
     
-    let items = ["Москва", "Санкт-Петербург", "Сочи", "Горный воздух", "Краснодар", "Казань", "Омск"]
+    let cities = ["Москва", "Санкт-Петербург", "Сочи", "Горный воздух", "Краснодар", "Казань", "Омск"]
     
     var filteredItems: [String] {
         if searchText.isEmpty {
-            return items
+            return cities
         } else {
-            return items.filter { $0.localizedCaseInsensitiveContains(searchText) }
+            return cities.filter { $0.localizedCaseInsensitiveContains(searchText) }
         }
     }
     
     var body: some View {
-        NavigationStack {
-            ScrollView (.vertical, showsIndicators: false) {
+        VStack(spacing: 0) {
+            CustomSearchBar(text: $searchText, placeholder: "Введите запрос")
+            
+            ScrollView(.vertical, showsIndicators: false) {
                 LazyVStack(alignment: .leading) {
                     if filteredItems.isEmpty {
                         VStack {
-                            Spacer()
                             Text("Город не найден")
                                 .font(.custom("SFPro-Bold", size: 24))
                                 .foregroundStyle(Color("dayOrNightColor"))
                                 .multilineTextAlignment(.center)
                                 .frame(maxWidth: .infinity)
-                            Spacer()
+                                .padding(.vertical, 176)
                         }
                     } else {
                         ForEach(filteredItems, id: \.self) { item in
-                            HStack {
-                                NavigationLink(destination: ChangeStationView()) {
+                            Button(action: {
+                                if fromField {
+                                    coordinator.selectedCityFrom = item
+                                    coordinator.selectedStationFrom = ""
+                                } else {
+                                    coordinator.selectedCityTo = item
+                                    coordinator.selectedStationTo = ""
+                                }
+                                coordinator.path.append(EnumAppRoute.stationPicker(city: item, fromField: fromField))
+                            }) {
+                                HStack {
                                     Text("\(item)")
                                         .font(.custom("SFPro-Regular", size: 17))
                                         .foregroundStyle(Color("dayOrNightColor"))
@@ -46,22 +58,26 @@ struct ChangeCityView: View {
                                     Spacer()
                                     
                                     Image("rightChevron")
+                                        .renderingMode(.template)
+                                        .foregroundColor(Color("dayOrNightColor"))
                                 }
                                 .padding(.vertical, 19)
+                                .contentShape(Rectangle())
                             }
+                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                 }
             }
             .padding(.horizontal, 16)
-            .searchable(text: $searchText, prompt: "Введите запрос")
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: { dismiss() }) {
                     Image("leftChevron")
-                        .renderingMode(.original)
+                        .renderingMode(.template)
+                        .foregroundColor(Color("dayOrNightColor"))
                 }
             }
             
@@ -75,5 +91,6 @@ struct ChangeCityView: View {
 }
 
 #Preview {
-    ChangeCityView()
+    ChangeCityView(coordinator: NavigationCoordinator(), fromField: true)
 }
+

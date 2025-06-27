@@ -13,10 +13,11 @@ struct MainScreenView: View {
     @State private var viewModel = MockReelsModel()
     @State private var fromTofromTo = true
     @State private var showAgreement = false
+    @StateObject private var coordinator = NavigationCoordinator()
     
     var body: some View {
         
-        NavigationStack {
+        NavigationStack(path: $coordinator.path) {
             TabView {
                 VStack (spacing: 44){
                     ScrollView (.horizontal, showsIndicators: false) {
@@ -37,18 +38,34 @@ struct MainScreenView: View {
                         
                         HStack {
                             VStack(alignment: .leading, spacing: 0) {
-                                NavigationLink(destination: ChangeCityView()) {
-                                    Text(fromTofromTo ? "Откуда" : "Куда")
-                                        .foregroundColor(Color("grayUniversal"))
-                                        .padding(.vertical, 14)
-                                        .padding(.horizontal, 16)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    
+                                NavigationLink(value: EnumAppRoute.cityPicker(fromField: true)) {
+                                    Text(fromTofromTo ? (coordinator.selectedCityFrom.isEmpty ? "Откуда" : "\(coordinator.selectedCityFrom) (\(coordinator.selectedStationFrom))")
+                                         : (coordinator.selectedCityTo.isEmpty ? "Куда" : "\(coordinator.selectedCityTo) (\(coordinator.selectedStationTo))")
+                                    )
+                                    .foregroundStyle(
+                                        (fromTofromTo
+                                         ? coordinator.selectedCityFrom.isEmpty
+                                         : coordinator.selectedCityTo.isEmpty
+                                        )
+                                        ? Color("grayUniversal")
+                                        : Color("blackUniversal")
+                                    )
+                                    .padding(.vertical, 14)
+                                    .padding(.horizontal, 16)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                                 }
-                                
-                                NavigationLink(destination: ChangeCityView()) {
-                                    Text(fromTofromTo ? "Куда" : "Откуда")
-                                        .foregroundColor(Color("grayUniversal"))
+                                NavigationLink(value: EnumAppRoute.cityPicker(fromField: false)) {
+                                    Text(fromTofromTo ? (coordinator.selectedCityTo.isEmpty ? "Куда" : "\(coordinator.selectedCityTo) (\(coordinator.selectedStationTo))")
+                                         : (coordinator.selectedCityFrom.isEmpty ? "Откуда" : "\(coordinator.selectedCityFrom) (\(coordinator.selectedStationFrom))")
+                                    )
+                                    .foregroundStyle(
+                                        (fromTofromTo
+                                         ? coordinator.selectedCityTo.isEmpty
+                                         : coordinator.selectedCityFrom.isEmpty
+                                        )
+                                        ? Color("grayUniversal")
+                                        : Color("blackUniversal")
+                                    )
                                         .padding(.vertical, 14)
                                         .padding(.horizontal, 16)
                                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -83,6 +100,7 @@ struct MainScreenView: View {
                 .padding(.top, 24)
                 .tabItem {
                     Image("scheduleTabItem")
+                        .renderingMode(.template)
                 }
                 
                 VStack {
@@ -103,6 +121,8 @@ struct MainScreenView: View {
                             Spacer()
                             
                             Image("rightChevron")
+                                .renderingMode(.template)
+                                .foregroundColor(Color("dayOrNightColor"))
                         }
                         .padding(.vertical, 19)
                     }
@@ -123,6 +143,16 @@ struct MainScreenView: View {
                 .padding(.top, 24)
                 .tabItem {
                     Image("gearTabItem")
+                        .renderingMode(.template)
+                }
+            }
+            .tint(Color("dayOrNightColor"))
+            .navigationDestination(for: EnumAppRoute.self) { route in
+                switch route {
+                case .cityPicker(let fromField):
+                    ChangeCityView(coordinator: coordinator, fromField: fromField)
+                case .stationPicker(let city, let fromField):
+                    ChangeStationView(coordinator: coordinator, city: city, fromField: fromField)
                 }
             }
         }
