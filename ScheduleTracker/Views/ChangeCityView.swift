@@ -59,7 +59,7 @@ struct ChangeCityView: View {
                                     
                                     Image("rightChevron")
                                         .renderingMode(.template)
-                                        .foregroundColor(Color("dayOrNightColor"))
+                                        .foregroundStyle(Color("dayOrNightColor"))
                                 }
                                 .padding(.vertical, 19)
                                 .contentShape(Rectangle())
@@ -77,7 +77,7 @@ struct ChangeCityView: View {
                 Button(action: { dismiss() }) {
                     Image("leftChevron")
                         .renderingMode(.template)
-                        .foregroundColor(Color("dayOrNightColor"))
+                        .foregroundStyle(Color("dayOrNightColor"))
                 }
             }
             

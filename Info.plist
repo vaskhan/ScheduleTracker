@@ -6,10 +6,7 @@
     <array>
         <string>SF-Pro.ttf</string>
     </array>
-	<key>Launch Screen</key>
-	<dict>
-		<key>Image Name</key>
-		<string>splashScreen</string>
-	</dict>
+    <key>UILaunchStoryboardName</key>
+    <string>LaunchScreen</string>
 </dict>
 </plist>

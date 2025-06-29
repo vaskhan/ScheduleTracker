@@ -20,7 +20,7 @@ struct UserAgreementView: View {
                     Button(action: { dismiss() }) {
                         Image("leftChevron")
                             .renderingMode(.template)
-                            .foregroundColor(Color("dayOrNightColor"))
+                            .foregroundStyle(Color("dayOrNightColor"))
                     }
                 }
                 

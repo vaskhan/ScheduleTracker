@@ -13,7 +13,7 @@ struct ScheduleTrackerApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainScreenView()
+            BaseView()
                 .preferredColorScheme(isDarkMode ? .dark : .light)
         }
     }

@@ -11,20 +11,20 @@ import SwiftUI
 struct CustomSearchBar: View {
     @Binding var text: String
     var placeholder: String = "Введите запрос"
-
+    
     var body: some View {
         HStack {
             Image(systemName: "magnifyingglass")
-                .foregroundColor(.grayUniversal)
-
+                .foregroundStyle(Color("grayUniversal"))
+            
             TextField(placeholder, text: $text)
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
-
+            
             if !text.isEmpty {
                 Button(action: { text = "" }) {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.grayUniversal)
+                        .foregroundStyle(Color("grayUniversal"))
                 }
             }
         }
