@@ -13,6 +13,7 @@
 
 /* Begin PBXFileReference section */
 		480F6AD92DFAFB7F0083A302 /* ScheduleTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScheduleTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		489CF6D72E0ABA5500942305 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -39,6 +40,7 @@
 		480F6AD02DFAFB7F0083A302 = {
 			isa = PBXGroup;
 			children = (
+				489CF6D72E0ABA5500942305 /* Info.plist */,
 				480F6ADB2DFAFB7F0083A302 /* ScheduleTracker */,
 				480F6B012DFB0B910083A302 /* Frameworks */,
 				480F6ADA2DFAFB7F0083A302 /* Products */,
@@ -286,6 +288,7 @@
 				DEVELOPMENT_TEAM = Y5WH4AQ9FW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -314,6 +317,7 @@
 				DEVELOPMENT_TEAM = Y5WH4AQ9FW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
