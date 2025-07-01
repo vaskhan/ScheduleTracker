@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
-    @State private var viewModel = MockReelsModel()
+    @StateObject private var viewModel = MockReelsModel()
     @State private var fromTofromTo = true
     @State private var showAgreement = false
     @ObservedObject var coordinator: NavigationCoordinator
