@@ -24,6 +24,16 @@ struct ReelsCell: View {
                 .strokeBorder(Color("blueUniversal"), lineWidth: 4)
                 .frame(width: reelsWidth, height: reelsHeight)
         }
+        .overlay {
+            VStack {
+                Spacer()
+                Text("Text Text Text Text Text Text Text Text Text")
+                    .font(.custom("SFPro-Regular", size: 12))
+                    .lineLimit(3)
+                    .foregroundColor(.white)
+                    .padding(EdgeInsets(.init(.init(top: 0, leading: 8, bottom: 12, trailing: 8))))
+            }
+        }
     }
 }
 
