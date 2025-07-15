@@ -10,38 +10,29 @@ struct ProgressBar: View {
     let progress: CGFloat
     
     var body: some View {
-        // Используем `GeometryReader` для получения размеров экрана
-        GeometryReader { geometry in
-            
-            ZStack(alignment: .leading) {
-                // Белая подложка прогресс бара
-                RoundedRectangle(cornerRadius: .progressBarCornerRadius)
-                    .frame(width: geometry.size.width, height: .progressBarHeight)
-                    .foregroundColor(.white)
-
-                // Синяя полоска текущего прогресса
-                RoundedRectangle(cornerRadius: .progressBarCornerRadius)
-                    .frame(
-                        // Ширина прогресса зависит от текущего прогресса.
-                        // Используем `min` на случай, если `progress` > 1
-                        width: min(
-                            progress * geometry.size.width,
-                            geometry.size.width
-                        ),
-                        height: .progressBarHeight
-                    )
-                    .foregroundColor(.blueUniversal)
-            }
-            // Добавляем маску
-            .mask {
-                HStack {
-                    // С помощью конструктора `ForEach` добавляем нужное колечество секций
-                    ForEach(0..<numberOfSections, id: \.self) { _ in
+        HStack(spacing: 6) {
+            ForEach(0..<numberOfSections, id: \.self) { index in
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: .progressBarCornerRadius)
+                            .frame(height: .progressBarHeight)
+                            .foregroundColor(.white)
+                        RoundedRectangle(cornerRadius: .progressBarCornerRadius)
+                            .frame(width: geo.size.width * fillFor(index: index), height: .progressBarHeight)
+                            .foregroundColor(Color("blueUniversal"))
+
                     }
                 }
+                .frame(height: .progressBarHeight)
             }
         }
+        .frame(height: .progressBarHeight)
+    }
+    
+    private func fillFor(index: Int) -> CGFloat {
+        if progress >= CGFloat(index + 1) { return 1 }
+        else if progress > CGFloat(index) { return progress - CGFloat(index) }
+        else { return 0 }
     }
 }
 
@@ -49,7 +40,7 @@ struct ProgressBar: View {
     Color("blackUniversal")
             .ignoresSafeArea()
         .overlay(
-            ProgressBar(numberOfSections: 4, progress: 0.5)
+            ProgressBar(numberOfSections: 4, progress: 2.3)
                 .padding()
         )
 }

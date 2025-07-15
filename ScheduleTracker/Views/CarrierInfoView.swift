@@ -13,56 +13,58 @@ struct CarrierInfoView: View {
     let carrier: TicketModel
     
     var body: some View {
-        VStack(spacing: 16) {
-            Image(carrier.operatorLogo)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 343, height: 104)
-                .scaleEffect(1.5)
-                .padding(.top, 16)
-            VStack(alignment: .leading, spacing: 16) {
-                Text(carrier.operatorName == "РЖД" ? "ОАО «РЖД»" : carrier.operatorName)
-                    .font(.custom("SFPro-Bold", size: 24))
-                    .foregroundStyle(Color("dayOrNightColor"))
-                VStack(alignment: .leading, spacing: 0) {
-                    // email
-                    Text("E-mail")
-                        .font(.custom("SFPro-Regular", size: 16))
+        ZStack {
+            Color("nightOrDayColor").ignoresSafeArea()
+            VStack(spacing: 16) {
+                Image(carrier.operatorLogo)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 343, height: 104)
+                    .padding(.top, 16)
+                VStack(alignment: .leading, spacing: 16) {
+                    Text(carrier.operatorName == "РЖД" ? "ОАО «РЖД»" : carrier.operatorName)
+                        .font(.custom("SFPro-Bold", size: 24))
                         .foregroundStyle(Color("dayOrNightColor"))
-                        .padding(.top, 12)
-                    Link("i.lozgkina@yandex.ru", destination: URL(string: "mailto:i.lozgkina@yandex.ru")!)
-                        .font(.custom("SFPro-Regular", size: 16))
-                        .foregroundColor(.blue)
-                        .padding(.bottom, 12)
-                    // телефон
-                    Text("Телефон")
-                        .font(.custom("SFPro-Regular", size: 16))
-                        .foregroundStyle(Color("dayOrNightColor"))
-                        .padding(.top, 12)
-                    Link("+7 (904) 329-27-71", destination: URL(string: "tel:+79043292771")!)
-                        .font(.custom("SFPro-Regular", size: 16))
-                        .foregroundColor(.blue)
-                        .padding(.bottom, 12)
+                    VStack(alignment: .leading, spacing: 0) {
+                        // email
+                        Text("E-mail")
+                            .font(.custom("SFPro-Regular", size: 16))
+                            .foregroundStyle(Color("dayOrNightColor"))
+                            .padding(.top, 12)
+                        Link("i.lozgkina@yandex.ru", destination: URL(string: "mailto:i.lozgkina@yandex.ru")!)
+                            .font(.custom("SFPro-Regular", size: 16))
+                            .foregroundColor(.blue)
+                            .padding(.bottom, 12)
+                        // телефон
+                        Text("Телефон")
+                            .font(.custom("SFPro-Regular", size: 16))
+                            .foregroundStyle(Color("dayOrNightColor"))
+                            .padding(.top, 12)
+                        Link("+7 (904) 329-27-71", destination: URL(string: "tel:+79043292771")!)
+                            .font(.custom("SFPro-Regular", size: 16))
+                            .foregroundColor(.blue)
+                            .padding(.bottom, 12)
+                    }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 16)
+                Spacer()
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading, 16)
-            Spacer()
-        }
-        .padding()
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: { dismiss() }) {
-                    Image("leftChevron")
-                        .renderingMode(.template)
+            .padding()
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: { dismiss() }) {
+                        Image("leftChevron")
+                            .renderingMode(.template)
+                            .foregroundStyle(Color("dayOrNightColor"))
+                    }
+                }
+                ToolbarItem(placement: .principal) {
+                    Text("Информация о перевозчике")
+                        .font(.custom("SFPro-Bold", size: 17))
                         .foregroundStyle(Color("dayOrNightColor"))
                 }
-            }
-            ToolbarItem(placement: .principal) {
-                Text("Информация о перевозчике")
-                    .font(.custom("SFPro-Bold", size: 17))
-                    .foregroundStyle(Color("dayOrNightColor"))
             }
         }
     }
@@ -78,7 +80,7 @@ struct CarrierInfoView_Previews: PreviewProvider {
                 arrival: "08:15",
                 duration: "20 часов",
                 withTransfer: true,
-                operatorLogo: "RJDImage", // укажи имя ассета лого, который есть в проекте
+                operatorLogo: "RJDImage",
                 note: "С пересадкой в Костроме"
             )
         )

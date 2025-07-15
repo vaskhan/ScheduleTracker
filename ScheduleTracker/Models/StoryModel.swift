@@ -1,31 +1,38 @@
 import SwiftUI
 
-struct Story {
-    let backgroundImageName: String
+struct Story: Identifiable {
+    let id = UUID()
+    let previewImageName: String
+    let fullImageName: String
     let title: String
     let description: String
 
     static let story1 = Story(
-        backgroundImageName: "mockReels4",
+        previewImageName: "mockReels4Prev",
+        fullImageName: "mockReels4Full",
         title: "Text Text Text Text Text Text Text Text Text Text",
         description: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text"
     )
 
     static let story2 = Story(
-        backgroundImageName: "mockReels3",
+        previewImageName: "mockReels3Prev",
+        fullImageName: "mockReels3Full",
         title: "Text Text Text Text Text Text Text Text Text Text",
         description: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text"
     )
 
     static let story3 = Story(
-        backgroundImageName: "mockReels2",
+        previewImageName: "mockReels2Prev",
+        fullImageName: "mockReels2Full",
         title: "Text Text Text Text Text Text Text Text Text Text",
         description: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text"
     )
     
     static let story4 = Story(
-        backgroundImageName: "mockReels1",
+        previewImageName: "mockReels1Prev",
+        fullImageName: "mockReels1Full",
         title: "Text Text Text Text Text Text Text Text Text Text",
         description: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text"
     )
 }
+

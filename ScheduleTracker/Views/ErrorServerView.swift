@@ -9,11 +9,14 @@ import SwiftUI
 
 struct ErrorServerView: View {
     var body: some View {
-        VStack (alignment: .center, spacing: 16) {
-            Image("errorServerImage")
-            Text("Ошибка сервера")
-                .font(.custom("SFPro-Bold", size: 24))
-                .foregroundStyle(Color("dayOrNightColor"))
+        ZStack {
+            Color("nightOrDayColor").ignoresSafeArea()
+            VStack (alignment: .center, spacing: 16) {
+                Image("errorServerImage")
+                Text("Ошибка сервера")
+                    .font(.custom("SFPro-Bold", size: 24))
+                    .foregroundStyle(Color("dayOrNightColor"))
+            }
         }
     }
 }

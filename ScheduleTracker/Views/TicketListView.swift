@@ -45,69 +45,72 @@ struct TicketListView: View {
     }
     
     var body: some View {
-        VStack(spacing: 16) {
-            // Заголовок
-            HStack {
-                Text("\(coordinator.selectedCityFrom) (\(coordinator.selectedStationFrom)) → \(coordinator.selectedCityTo) (\(coordinator.selectedStationTo))")
-                    .font(.custom("SFPro-Bold", size: 24))
-                    .foregroundStyle(Color("dayOrNightColor"))
-                    .multilineTextAlignment(.leading)
-                Spacer()
-            }
-            // Расписание
-            ZStack(alignment: .bottom) {
-                
-                ScrollView {
-                    LazyVStack(spacing: 8) {
-                        if filteredTickets.isEmpty {
-                            VStack {
-                                Text("Вариантов нет")
-                                    .font(.custom("SFPro-Bold", size: 24))
-                                    .foregroundStyle(Color("dayOrNightColor"))
-                                    .multilineTextAlignment(.center)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 231)
-                            }
-                        } else {
-                            ForEach(filteredTickets) { ticket in
-                                Button(action: {
-                                    coordinator.path.append(EnumAppRoute.carrierInfo(ticket))
-                                }) {
-                                    TicketCell(ticket: ticket)
+        ZStack {
+            Color("nightOrDayColor").ignoresSafeArea()
+            VStack(spacing: 16) {
+                // Заголовок
+                HStack {
+                    Text("\(coordinator.selectedCityFrom) (\(coordinator.selectedStationFrom)) → \(coordinator.selectedCityTo) (\(coordinator.selectedStationTo))")
+                        .font(.custom("SFPro-Bold", size: 24))
+                        .foregroundStyle(Color("dayOrNightColor"))
+                        .multilineTextAlignment(.leading)
+                    Spacer()
+                }
+                // Расписание
+                ZStack(alignment: .bottom) {
+                    
+                    ScrollView {
+                        LazyVStack(spacing: 8) {
+                            if filteredTickets.isEmpty {
+                                VStack {
+                                    Text("Вариантов нет")
+                                        .font(.custom("SFPro-Bold", size: 24))
+                                        .foregroundStyle(Color("dayOrNightColor"))
+                                        .multilineTextAlignment(.center)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 231)
+                                }
+                            } else {
+                                ForEach(filteredTickets) { ticket in
+                                    Button(action: {
+                                        coordinator.path.append(EnumAppRoute.carrierInfo(ticket))
+                                    }) {
+                                        TicketCell(ticket: ticket)
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                
-                Button(action: {coordinator.path.append(EnumAppRoute.filters)}) {
-                    HStack(spacing: 4) {
-                        Text("Уточнить время")
-                            .font(.custom("SFPro-Bold", size: 17))
-                            .foregroundStyle(Color(.white))
-                        
-                        if coordinator.isFiltersValid {
-                            Circle()
-                                .foregroundStyle(Color("redUniversal"))
-                                .frame(width: 8, height: 8)
+                    
+                    Button(action: {coordinator.path.append(EnumAppRoute.filters)}) {
+                        HStack(spacing: 4) {
+                            Text("Уточнить время")
+                                .font(.custom("SFPro-Bold", size: 17))
+                                .foregroundStyle(Color(.white))
+                            
+                            if coordinator.isFiltersValid {
+                                Circle()
+                                    .foregroundStyle(Color("redUniversal"))
+                                    .frame(width: 8, height: 8)
+                            }
                         }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 20)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 20)
+                    .background(Color("blueUniversal"))
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .padding(.bottom, 24)
                 }
-                .background(Color("blueUniversal"))
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                .padding(.bottom, 24)
             }
-        }
-        .padding(.horizontal, 16)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: { dismiss() }) {
-                    Image("leftChevron")
-                        .renderingMode(.template)
-                        .foregroundStyle(Color("dayOrNightColor"))
+            .padding(.horizontal, 16)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: { dismiss() }) {
+                        Image("leftChevron")
+                            .renderingMode(.template)
+                            .foregroundStyle(Color("dayOrNightColor"))
+                    }
                 }
             }
         }

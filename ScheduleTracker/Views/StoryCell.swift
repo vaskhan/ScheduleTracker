@@ -1,5 +1,5 @@
 //
-//  ReelsCell.swift
+//  StoryCell.swift
 //  ScheduleTracker
 //
 //  Created by Василий Ханин on 24.06.2025.
@@ -7,22 +7,25 @@
 
 import SwiftUI
 
-struct ReelsCell: View {
-    var reels: ReelsModel
+struct StoryCell: View {
+    let story: Story
+    let isViewed: Bool
     
     var body: some View {
-        let reelsHeight: Double = 140
-        let reelsWidth: Double = 92
+        let storyHeight: Double = 140
+        let storyWidth: Double = 92
         
         ZStack {
-            Image(reels.imageName)
+            Image(story.previewImageName)
                 .resizable()
                 .clipShape(RoundedRectangle(cornerRadius: 16))
-                .frame(width: reelsWidth, height: reelsHeight)
-            
-            RoundedRectangle(cornerRadius: 16)
-                .strokeBorder(Color("blueUniversal"), lineWidth: 4)
-                .frame(width: reelsWidth, height: reelsHeight)
+                .frame(width: storyWidth, height: storyHeight)
+                .opacity(isViewed ? 0.5 : 1.0)
+            if !isViewed {
+                RoundedRectangle(cornerRadius: 16)
+                    .strokeBorder(Color("blueUniversal"), lineWidth: 4)
+                    .frame(width: storyWidth, height: storyHeight)
+            }
         }
         .overlay {
             VStack {
@@ -35,11 +38,4 @@ struct ReelsCell: View {
             }
         }
     }
-}
-
-#Preview {
-    let mockReels = ReelsModel(imageName: "mockReels1")
-    return ReelsCell(reels: mockReels)
-        .padding()
-        .background(Color(.systemBackground))
 }
