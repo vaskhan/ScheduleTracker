@@ -11,29 +11,31 @@ import SwiftUI
 struct UserAgreementView: View {
     @AppStorage("isDarkMode") private var isDarkMode = false
     @Environment(\.dismiss) var dismiss
-    let agreementURL = URL(string: "https://yandex.ru/legal/practicum_offer")!
+    private let agreementURLString = "https://yandex.ru/legal/practicum_offer"
     
     var body: some View {
         ZStack {
             Color("nightOrDayColor").ignoresSafeArea()
-            WebView(url: agreementURL)
-                .id(isDarkMode)
-                .navigationBarBackButtonHidden(true)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: { dismiss() }) {
-                            Image("leftChevron")
-                                .renderingMode(.template)
+            if let agreementURL = URL(string: agreementURLString) {
+                WebView(url: agreementURL)
+                    .id(isDarkMode)
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button(action: { dismiss() }) {
+                                Image("leftChevron")
+                                    .renderingMode(.template)
+                                    .foregroundStyle(Color("dayOrNightColor"))
+                            }
+                        }
+                        
+                        ToolbarItem(placement: .principal) {
+                            Text("Пользовательское соглашение")
+                                .font(.custom("SFPro-Bold", size: 17))
                                 .foregroundStyle(Color("dayOrNightColor"))
                         }
                     }
-                    
-                    ToolbarItem(placement: .principal) {
-                        Text("Пользовательское соглашение")
-                            .font(.custom("SFPro-Bold", size: 17))
-                            .foregroundStyle(Color("dayOrNightColor"))
-                    }
-                }
+            }
         }
     }
 }

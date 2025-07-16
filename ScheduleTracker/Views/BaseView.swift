@@ -13,22 +13,22 @@ struct BaseView: View {
     
     var body: some View {
         ZStack {
-            Color("nightOrDayColor").ignoresSafeArea()
+            Color.nightOrDay.ignoresSafeArea()
             NavigationStack(path: $coordinator.path) {
                 TabView {
                     MainView(viewModel: viewModel, coordinator: coordinator)
                         .tabItem {
-                            Image("scheduleTabItem")
+                            Image(.scheduleTabItem)
                                 .renderingMode(.template)
                         }
                     
                     SettingsView()
                         .tabItem {
-                            Image("gearTabItem")
+                            Image(.gearTabItem)
                                 .renderingMode(.template)
                         }
                 }
-                .tint(Color("dayOrNightColor"))
+                .tint(.dayOrNight)
                 .navigationDestination(for: EnumAppRoute.self) { route in
                     switch route {
                     case .cityPicker(let fromField):

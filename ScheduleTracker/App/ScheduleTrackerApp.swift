@@ -15,7 +15,6 @@ struct ScheduleTrackerApp: App {
         WindowGroup {
             BaseView()
                 .preferredColorScheme(isDarkMode ? .dark : .light)
-                .background(Color("nightOrDayColor").ignoresSafeArea())
         }
     }
 }

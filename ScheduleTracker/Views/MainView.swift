@@ -17,14 +17,14 @@ struct MainView: View {
     @State private var showStories = false
     @State private var selectedStoryIndex = 0
     @State private var viewedStories: Set<Int> = []
-    @State private var pendingStoryIndex: Int? = nil
+    @State private var pendingStoryIndex: Int?
     
     var body: some View {
         ZStack {
             Color("nightOrDayColor").ignoresSafeArea()
             VStack (spacing: 44){
                 ScrollView (.horizontal, showsIndicators: false) {
-                    LazyHStack(alignment: .center, spacing: 12) {
+                    LazyHStack(spacing: 12) {
                         ForEach(viewModel.stories.indices.sorted { lhs, rhs in
                             let isViewedL = viewedStories.contains(lhs)
                             let isViewedR = viewedStories.contains(rhs)

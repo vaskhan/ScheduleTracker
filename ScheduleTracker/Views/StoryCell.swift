@@ -30,11 +30,16 @@ struct StoryCell: View {
         .overlay {
             VStack {
                 Spacer()
-                Text("Text Text Text Text Text Text Text Text Text")
-                    .font(.custom("SFPro-Regular", size: 12))
-                    .lineLimit(3)
-                    .foregroundColor(.white)
-                    .padding(EdgeInsets(.init(.init(top: 0, leading: 8, bottom: 12, trailing: 8))))
+                HStack {
+                    Text("Text Text Text Text Text Text Text Text Text")
+                        .font(.custom("SFPro-Regular", size: 12))
+                        .lineLimit(3)
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(.white)
+                        .padding(.leading, 8)
+                        .padding(.bottom, 12)
+                    Spacer()
+                }
             }
         }
     }

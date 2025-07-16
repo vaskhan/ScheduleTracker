@@ -31,10 +31,12 @@ struct CarrierInfoView: View {
                             .font(.custom("SFPro-Regular", size: 16))
                             .foregroundStyle(Color("dayOrNightColor"))
                             .padding(.top, 12)
-                        Link("i.lozgkina@yandex.ru", destination: URL(string: "mailto:i.lozgkina@yandex.ru")!)
-                            .font(.custom("SFPro-Regular", size: 16))
-                            .foregroundColor(.blue)
-                            .padding(.bottom, 12)
+                        if let mailURL = URL(string: "mailto:i.lozgkina@yandex.ru") {
+                            Link("i.lozgkina@yandex.ru", destination: mailURL)
+                                .font(.custom("SFPro-Regular", size: 16))
+                                .foregroundColor(.blue)
+                                .padding(.bottom, 12)
+                        }
                         // телефон
                         Text("Телефон")
                             .font(.custom("SFPro-Regular", size: 16))
