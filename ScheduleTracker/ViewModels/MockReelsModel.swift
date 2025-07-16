@@ -8,14 +8,14 @@
 import Foundation
 
 @Observable class MockReelsModel: ObservableObject {
-    var reels: [ReelsModel]
+    var stories: [Story]
     
     init() {
-        let reels1 = ReelsModel(imageName: "mockReels4")
-        let reels2 = ReelsModel(imageName: "mockReels3")
-        let reels3 = ReelsModel(imageName: "mockReels2")
-        let reels4 = ReelsModel(imageName: "mockReels1")
-        
-        self.reels = [reels1, reels2, reels3, reels4]
+        self.stories = [
+            Story.story1,
+            Story.story2,
+            Story.story3,
+            Story.story4
+        ]
     }
 }
