@@ -17,7 +17,7 @@ import OpenAPIURLSession
 typealias NearestStations = Components.Schemas.Stations
 
 // Определяем протокол для нашего сервиса (хорошая практика для тестирования и гибкости)
-protocol NearestStationsServiceProtocol {
+@preconcurrency protocol NearestStationsServiceProtocol {
   // Функция для получения станций, асинхронная и может выбросить ошибку
   func getNearestStations(lat: Double, lng: Double, distance: Int) async throws -> NearestStations
 }

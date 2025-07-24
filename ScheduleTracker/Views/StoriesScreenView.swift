@@ -123,7 +123,3 @@ struct StoriesScreenView: View {
         Timer.publish(every: configuration.timerTickInternal, on: .main, in: .common)
     }
 }
-
-//#Preview {
-//    StoriesScreenView()
-//}

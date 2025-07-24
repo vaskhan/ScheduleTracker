@@ -583,6 +583,15 @@ components:
                     type: string
               has_transfers:
                 type: boolean
+              duration:
+                type: number
+                description: Длительность в секундах
+              departure:
+                type: string
+                description: Время отправления (HH:mm:ss или ISO 8601)
+              start_date:
+                type: string
+                description: Дата отправления (yyyy-MM-dd)
               tickets_info:
                 type: object
                 properties:
@@ -732,6 +741,15 @@ components:
                     type: string
               has_transfers:
                 type: boolean
+              duration:
+                type: number
+                description: Длительность в секундах
+              departure:
+                type: string
+                description: Время отправления (HH:mm:ss или ISO 8601)
+              start_date:
+                type: string
+                description: Дата отправления (yyyy-MM-dd)
               tickets_info:
                 type: object
                 properties:

@@ -10,8 +10,8 @@ import OpenAPIURLSession
 
 typealias Search = Components.Schemas.SearchSchema
 
-protocol SearchServiceProtocol {
-    func getSchedualBetweenStations(from: String, to: String) async throws -> Search
+@preconcurrency protocol SearchServiceProtocol {
+    func getScheduleBetweenStations(from: String, to: String) async throws -> Search
 }
 
 final class SearchService: SearchServiceProtocol {
@@ -24,7 +24,7 @@ final class SearchService: SearchServiceProtocol {
         self.apikey = apikey
     }
     
-    func getSchedualBetweenStations(from: String, to: String) async throws -> Search {
+    func getScheduleBetweenStations(from: String, to: String) async throws -> Search {
         let response = try await client.getSearch(query: .init(apikey: apikey, from: from, to: to))
         
         return try response.ok.body.json

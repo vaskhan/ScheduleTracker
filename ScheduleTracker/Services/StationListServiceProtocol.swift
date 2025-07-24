@@ -11,7 +11,7 @@ import Foundation
 
 typealias AllStation = Components.Schemas.StationsList
 
-protocol StationListServiceProtocol {
+@preconcurrency protocol StationListServiceProtocol {
     func getAllStations() async throws -> AllStation
 }
 

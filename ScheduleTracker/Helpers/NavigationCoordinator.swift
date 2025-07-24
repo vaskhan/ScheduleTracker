@@ -16,7 +16,9 @@ final class NavigationCoordinator: ObservableObject {
     @Published var selectedStationTo: String = ""
     @Published var timeFilters: Set<TimePeriod> = []
     @Published var showTransfers: Bool? = nil
-    
+    @Published var selectedStationFromCode: String = ""
+    @Published var selectedStationToCode: String = ""
+
     var isFiltersValid: Bool {
         !timeFilters.isEmpty && showTransfers != nil
     }

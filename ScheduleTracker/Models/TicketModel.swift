@@ -17,4 +17,5 @@ struct TicketModel: Hashable, Identifiable {
     let withTransfer: Bool
     let operatorLogo: String
     let note: String?
+    let carrierCode: Int?
 }

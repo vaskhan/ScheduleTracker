@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct SettingsView: View {
-    
     @AppStorage("isDarkMode") private var isDarkMode = false
-    
+    @StateObject var viewModel: SettingsViewModel
+
     var body: some View {
         ZStack {
             Color("nightOrDayColor").ignoresSafeArea()
-            
             VStack {
                 Toggle(isOn: $isDarkMode) {
                     Text("Темная тема")
@@ -29,9 +28,7 @@ struct SettingsView: View {
                         Text("Пользовательское соглашение")
                             .font(.custom("SFPro-Regular", size: 17))
                             .foregroundStyle(Color("dayOrNightColor"))
-                        
                         Spacer()
-                        
                         Image("rightChevron")
                             .renderingMode(.template)
                             .foregroundStyle(Color("dayOrNightColor"))
@@ -41,12 +38,30 @@ struct SettingsView: View {
                 
                 Spacer()
                 
-                Text("Приложение использует API «Яндекс.Расписания»\nВерсия 1.0 (beta)")
-                    .multilineTextAlignment(.center)
-                    .lineSpacing(16)
-                    .font(.custom("SFPro-Regular", size: 12))
-                    .foregroundStyle(Color("dayOrNightColor"))
-                
+                if viewModel.isLoading {
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                } else if viewModel.errorType == .internet {
+                    ErrorInternetView()
+                } else if viewModel.errorType == .server {
+                    ErrorServerView()
+                } else {
+                    if !viewModel.copyrightText.isEmpty {
+                        Text(viewModel.copyrightText)
+                            .multilineTextAlignment(.center)
+                            .lineSpacing(16)
+                            .font(.custom("SFPro-Regular", size: 12))
+                            .foregroundStyle(Color("dayOrNightColor"))
+                    } else {
+                        Text("Приложение использует API «Яндекс.Расписания»\nВерсия 1.0 (beta)")
+                            .lineLimit(2)
+                            .multilineTextAlignment(.center)
+                            .lineSpacing(16)
+                            .font(.custom("SFPro-Regular", size: 12))
+                            .foregroundStyle(Color("dayOrNightColor"))
+                    }
+                }
                 Divider()
                     .frame(height: 3)
                     .padding(.top, 24)
@@ -54,9 +69,8 @@ struct SettingsView: View {
             .padding(.horizontal, 16)
             .padding(.top, 24)
         }
+        .task {
+            await viewModel.fetchCopyright()
+        }
     }
-}
-
-#Preview {
-    SettingsView()
 }

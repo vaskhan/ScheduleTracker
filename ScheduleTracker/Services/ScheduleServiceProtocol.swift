@@ -10,7 +10,7 @@ import OpenAPIURLSession
 
 typealias Schedule = Components.Schemas.ScheduleSchema
 
-protocol ScheduleServiceProtocol {
+@preconcurrency protocol ScheduleServiceProtocol {
     func getStationSchedule(station: String) async throws -> Schedule
 }
 

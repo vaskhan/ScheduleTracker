@@ -10,7 +10,7 @@ import OpenAPIURLSession
 
 typealias Carrier = Components.Schemas.CarrierResponse
 
-protocol CarrierServiceProtocol {
+@preconcurrency protocol CarrierServiceProtocol {
     func getCarrierInfo(code: String) async throws -> Carrier
 }
 

@@ -10,7 +10,7 @@ import OpenAPIURLSession
 
 typealias Settlement = Components.Schemas.Settlement
 
-protocol NearestSettlementServiceProtocol {
+@preconcurrency protocol NearestSettlementServiceProtocol {
     func getNearestCity(lat: Double, lng: Double) async throws -> Settlement
 }
 
