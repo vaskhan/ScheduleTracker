@@ -26,56 +26,50 @@ struct ChangeCityView: View {
             Color("nightOrDayColor").ignoresSafeArea()
             VStack(spacing: 0) {
                 CustomSearchBar(text: $viewModel.searchText, placeholder: "Введите запрос")
-                if viewModel.isLoading {
-                    Spacer()
-                    ProgressView()
-                    Spacer()
-                } else if viewModel.errorType == .internet {
-                    ErrorInternetView()
-                } else if viewModel.errorType == .server {
-                    ErrorServerView()
-                } else {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        LazyVStack(alignment: .leading) {
-                            if viewModel.filteredCities.isEmpty {
-                                VStack {
-                                    Text("Город не найден")
-                                        .font(.custom("SFPro-Bold", size: 24))
-                                        .foregroundStyle(Color("dayOrNightColor"))
-                                        .multilineTextAlignment(.center)
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.vertical, 176)
-                                }
-                            } else {
-                                ForEach(viewModel.filteredCities, id: \.self) { item in
-                                    Button(action: {
-                                        if fromField {
-                                            coordinator.selectedCityFrom = item
-                                            coordinator.selectedStationFrom = ""
-                                        } else {
-                                            coordinator.selectedCityTo = item
-                                            coordinator.selectedStationTo = ""
-                                        }
-                                        coordinator.path.append(EnumAppRoute.stationPicker(city: item, fromField: fromField))
-                                    }) {
-                                        HStack {
-                                            Text("\(item)")
-                                                .font(.custom("SFPro-Regular", size: 17))
-                                                .foregroundStyle(Color("dayOrNightColor"))
-                                            Spacer()
-                                            Image("rightChevron")
-                                                .renderingMode(.template)
-                                                .foregroundStyle(Color("dayOrNightColor"))
-                                        }
-                                        .padding(.vertical, 19)
-                                        .contentShape(Rectangle())
+                StateWrapperView(isLoading: viewModel.isLoading, errorType: viewModel.errorType) {
+                    Group {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            LazyVStack(alignment: .leading) {
+                                if viewModel.filteredCities.isEmpty {
+                                    VStack {
+                                        Text("Город не найден")
+                                            .font(.custom("SFPro-Bold", size: 24))
+                                            .foregroundStyle(Color("dayOrNightColor"))
+                                            .multilineTextAlignment(.center)
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.vertical, 176)
                                     }
-                                    .buttonStyle(PlainButtonStyle())
+                                } else {
+                                    ForEach(viewModel.filteredCities, id: \.self) { item in
+                                        Button(action: {
+                                            if fromField {
+                                                coordinator.selectedCityFrom = item
+                                                coordinator.selectedStationFrom = ""
+                                            } else {
+                                                coordinator.selectedCityTo = item
+                                                coordinator.selectedStationTo = ""
+                                            }
+                                            coordinator.path.append(EnumAppRoute.stationPicker(city: item, fromField: fromField))
+                                        }) {
+                                            HStack {
+                                                Text("\(item)")
+                                                    .font(.custom("SFPro-Regular", size: 17))
+                                                    .foregroundStyle(Color("dayOrNightColor"))
+                                                Spacer()
+                                                Image("rightChevron")
+                                                    .renderingMode(.template)
+                                                    .foregroundStyle(Color("dayOrNightColor"))
+                                            }
+                                            .padding(.vertical, 19)
+                                            .contentShape(Rectangle())
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                    }
                                 }
                             }
                         }
+                        .padding(.horizontal, 16)
                     }
-                    .padding(.horizontal, 16)
                 }
             }
             .navigationBarBackButtonHidden(true)

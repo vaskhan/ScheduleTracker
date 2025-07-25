@@ -14,7 +14,7 @@ typealias Copyright = Components.Schemas.Copyright
     func getCopyright() async throws -> Copyright
 }
 
-final class CopyrightService: CopyrightServiceProtocol {
+actor CopyrightService: CopyrightServiceProtocol {
     private let client: Client
     private let apikey: String
     

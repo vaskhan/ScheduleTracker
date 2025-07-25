@@ -12,7 +12,7 @@ struct TicketListView: View {
     @ObservedObject var coordinator: NavigationCoordinator
     @ObservedObject var viewModel: TicketListViewModel
     @Environment(\.dismiss) var dismiss
-
+    
     var body: some View {
         ZStack {
             Color("nightOrDayColor").ignoresSafeArea()
@@ -27,67 +27,63 @@ struct TicketListView: View {
                 ZStack(alignment: .bottom) {
                     ScrollView {
                         LazyVStack(spacing: 8) {
-                            if viewModel.isLoading {
-                                ProgressView()
-                                    .padding(.top, 100)
-                            } else if viewModel.errorType == .internet {
-                                ErrorInternetView()
-                            } else if viewModel.errorType == .server {
-                                ErrorServerView()
-                            } else if viewModel.filteredTickets.isEmpty {
-                                VStack {
-                                    Text("Вариантов нет")
-                                        .font(.custom("SFPro-Bold", size: 24))
-                                        .foregroundStyle(Color("dayOrNightColor"))
-                                        .multilineTextAlignment(.center)
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.vertical, 231)
-                                }
-                            } else {
-                                ForEach(viewModel.filteredTickets) { ticket in
-                                    Button(action: {
-                                        coordinator.path.append(EnumAppRoute.carrierInfo(ticket))
-                                    }) {
-                                        TicketCell(ticket: ticket)
+                            StateWrapperView(isLoading: viewModel.isLoading, errorType: viewModel.errorType) {
+                                Group {
+                                    if viewModel.filteredTickets.isEmpty {
+                                        VStack {
+                                            Text("Вариантов нет")
+                                                .font(.custom("SFPro-Bold", size: 24))
+                                                .foregroundStyle(Color("dayOrNightColor"))
+                                                .multilineTextAlignment(.center)
+                                                .frame(maxWidth: .infinity)
+                                                .padding(.vertical, 231)
+                                        }
+                                    } else {
+                                        ForEach(viewModel.filteredTickets) { ticket in
+                                            Button(action: {
+                                                coordinator.path.append(EnumAppRoute.carrierInfo(ticket))
+                                            }) {
+                                                TicketCell(ticket: ticket)
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    Button(action: { coordinator.path.append(EnumAppRoute.filters) }) {
-                        HStack(spacing: 4) {
-                            Text("Уточнить время")
-                                .font(.custom("SFPro-Bold", size: 17))
-                                .foregroundStyle(Color(.white))
-                            if coordinator.isFiltersValid {
-                                Circle()
-                                    .foregroundStyle(Color("redUniversal"))
-                                    .frame(width: 8, height: 8)
+                        Button(action: { coordinator.path.append(EnumAppRoute.filters) }) {
+                            HStack(spacing: 4) {
+                                Text("Уточнить время")
+                                    .font(.custom("SFPro-Bold", size: 17))
+                                    .foregroundStyle(Color(.white))
+                                if coordinator.isFiltersValid {
+                                    Circle()
+                                        .foregroundStyle(Color("redUniversal"))
+                                        .frame(width: 8, height: 8)
+                                }
                             }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 20)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 20)
+                        .background(Color("blueUniversal"))
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .padding(.bottom, 24)
                     }
-                    .background(Color("blueUniversal"))
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .padding(.bottom, 24)
                 }
-            }
-            .padding(.horizontal, 16)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: { dismiss() }) {
-                        Image("leftChevron")
-                            .renderingMode(.template)
-                            .foregroundStyle(Color("dayOrNightColor"))
+                .padding(.horizontal, 16)
+                .navigationBarBackButtonHidden(true)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: { dismiss() }) {
+                            Image("leftChevron")
+                                .renderingMode(.template)
+                                .foregroundStyle(Color("dayOrNightColor"))
+                        }
                     }
                 }
             }
-        }
-        .task {
-            await viewModel.loadTickets()
+            .task {
+                await viewModel.loadTickets()
+            }
         }
     }
-}
-
+    

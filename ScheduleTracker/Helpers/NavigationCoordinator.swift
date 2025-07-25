@@ -15,7 +15,7 @@ final class NavigationCoordinator: ObservableObject {
     @Published var selectedCityTo: String = ""
     @Published var selectedStationTo: String = ""
     @Published var timeFilters: Set<TimePeriod> = []
-    @Published var showTransfers: Bool? = nil
+    @Published var showTransfers: Bool?
     @Published var selectedStationFromCode: String = ""
     @Published var selectedStationToCode: String = ""
 

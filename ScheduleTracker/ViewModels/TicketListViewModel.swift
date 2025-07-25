@@ -13,7 +13,7 @@ final class TicketListViewModel: ObservableObject, ErrorHandleable {
     @Published var tickets: [TicketModel] = []
     @Published var isLoading = false
     @Published var errorType: AppErrorType = .none
-    @Published var showTransfers: Bool? = nil
+    @Published var showTransfers: Bool?
     @Published var timeFilters: Set<TimePeriod> = []
 
     private let searchService: SearchServiceProtocol
@@ -24,7 +24,7 @@ final class TicketListViewModel: ObservableObject, ErrorHandleable {
         searchService: SearchServiceProtocol,
         fromStation: String,
         toStation: String,
-        showTransfers: Bool? = nil,
+        showTransfers: Bool?,
         timeFilters: Set<TimePeriod> = []
     ) {
         self.searchService = searchService

@@ -14,7 +14,7 @@ typealias Search = Components.Schemas.SearchSchema
     func getScheduleBetweenStations(from: String, to: String) async throws -> Search
 }
 
-final class SearchService: SearchServiceProtocol {
+actor SearchService: SearchServiceProtocol {
     
     private let client: Client
     private let apikey: String

@@ -14,7 +14,7 @@ typealias Schedule = Components.Schemas.ScheduleSchema
     func getStationSchedule(station: String) async throws -> Schedule
 }
 
-final class ScheduleService: ScheduleServiceProtocol {
+actor ScheduleService: ScheduleServiceProtocol {
     
     private let client: Client
     private let apikey: String

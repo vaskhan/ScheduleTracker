@@ -34,57 +34,51 @@ struct ChangeStationView: View {
             Color("nightOrDayColor").ignoresSafeArea()
             VStack(spacing: 0) {
                 CustomSearchBar(text: $viewModel.searchText, placeholder: "Введите запрос")
-                if viewModel.isLoading {
-                    Spacer()
-                    ProgressView()
-                    Spacer()
-                } else if viewModel.errorType == .internet {
-                    ErrorInternetView()
-                } else if viewModel.errorType == .server {
-                    ErrorServerView()
-                } else {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        LazyVStack(alignment: .leading) {
-                            if viewModel.filteredStations.isEmpty {
-                                VStack {
-                                    Text("Станция не найдена")
-                                        .font(.custom("SFPro-Bold", size: 24))
-                                        .foregroundStyle(Color("dayOrNightColor"))
-                                        .multilineTextAlignment(.center)
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.vertical, 176)
-                                }
-                            } else {
-                                ForEach(viewModel.filteredStations, id: \.id) { station in
-                                    Button(action: {
-                                        if fromField {
-                                            coordinator.selectedCityFrom = city
-                                            coordinator.selectedStationFrom = station.title
-                                            coordinator.selectedStationFromCode = station.id
-                                        } else {
-                                            coordinator.selectedCityTo = city
-                                            coordinator.selectedStationTo = station.title
-                                            coordinator.selectedStationToCode = station.id
-                                        }
-                                        coordinator.path = NavigationPath()
-                                    }) {
-                                        HStack {
-                                            Text(station.title)
-                                                .font(.custom("SFPro-Regular", size: 17))
-                                                .foregroundStyle(Color("dayOrNightColor"))
-                                            Spacer()
-                                            Image("rightChevron")
-                                                .renderingMode(.template)
-                                                .foregroundStyle(Color("dayOrNightColor"))
-                                        }
-                                        .padding(.vertical, 19)
-                                        .contentShape(Rectangle())
+                StateWrapperView(isLoading: viewModel.isLoading, errorType: viewModel.errorType) {
+                    Group {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            LazyVStack(alignment: .leading) {
+                                if viewModel.filteredStations.isEmpty {
+                                    VStack {
+                                        Text("Станция не найдена")
+                                            .font(.custom("SFPro-Bold", size: 24))
+                                            .foregroundStyle(Color("dayOrNightColor"))
+                                            .multilineTextAlignment(.center)
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.vertical, 176)
                                     }
-                                    .buttonStyle(PlainButtonStyle())
+                                } else {
+                                    ForEach(viewModel.filteredStations, id: \.id) { station in
+                                        Button(action: {
+                                            if fromField {
+                                                coordinator.selectedCityFrom = city
+                                                coordinator.selectedStationFrom = station.title
+                                                coordinator.selectedStationFromCode = station.id
+                                            } else {
+                                                coordinator.selectedCityTo = city
+                                                coordinator.selectedStationTo = station.title
+                                                coordinator.selectedStationToCode = station.id
+                                            }
+                                            coordinator.path = NavigationPath()
+                                        }) {
+                                            HStack {
+                                                Text(station.title)
+                                                    .font(.custom("SFPro-Regular", size: 17))
+                                                    .foregroundStyle(Color("dayOrNightColor"))
+                                                Spacer()
+                                                Image("rightChevron")
+                                                    .renderingMode(.template)
+                                                    .foregroundStyle(Color("dayOrNightColor"))
+                                            }
+                                            .padding(.vertical, 19)
+                                            .contentShape(Rectangle())
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                    }
                                 }
                             }
+                            .padding(.horizontal, 16)
                         }
-                        .padding(.horizontal, 16)
                     }
                 }
             }

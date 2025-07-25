@@ -38,28 +38,22 @@ struct SettingsView: View {
                 
                 Spacer()
                 
-                if viewModel.isLoading {
-                    Spacer()
-                    ProgressView()
-                    Spacer()
-                } else if viewModel.errorType == .internet {
-                    ErrorInternetView()
-                } else if viewModel.errorType == .server {
-                    ErrorServerView()
-                } else {
-                    if !viewModel.copyrightText.isEmpty {
-                        Text(viewModel.copyrightText)
-                            .multilineTextAlignment(.center)
-                            .lineSpacing(16)
-                            .font(.custom("SFPro-Regular", size: 12))
-                            .foregroundStyle(Color("dayOrNightColor"))
-                    } else {
-                        Text("Приложение использует API «Яндекс.Расписания»\nВерсия 1.0 (beta)")
-                            .lineLimit(2)
-                            .multilineTextAlignment(.center)
-                            .lineSpacing(16)
-                            .font(.custom("SFPro-Regular", size: 12))
-                            .foregroundStyle(Color("dayOrNightColor"))
+                StateWrapperView(isLoading: viewModel.isLoading, errorType: viewModel.errorType) {
+                    Group {
+                        if !viewModel.copyrightText.isEmpty {
+                            Text(viewModel.copyrightText)
+                                .multilineTextAlignment(.center)
+                                .lineSpacing(16)
+                                .font(.custom("SFPro-Regular", size: 12))
+                                .foregroundStyle(Color("dayOrNightColor"))
+                        } else {
+                            Text("Приложение использует API «Яндекс.Расписания»\nВерсия 1.0 (beta)")
+                                .lineLimit(2)
+                                .multilineTextAlignment(.center)
+                                .lineSpacing(16)
+                                .font(.custom("SFPro-Regular", size: 12))
+                                .foregroundStyle(Color("dayOrNightColor"))
+                        }
                     }
                 }
                 Divider()

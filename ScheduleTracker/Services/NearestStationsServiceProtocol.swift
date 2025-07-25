@@ -23,7 +23,7 @@ typealias NearestStations = Components.Schemas.Stations
 }
 
 // Конкретная реализация сервиса
-final class NearestStationsService: NearestStationsServiceProtocol {
+actor NearestStationsService: NearestStationsServiceProtocol {
   // Хранит экземпляр сгенерированного клиента
   private let client: Client 
   // Хранит API-ключ (лучше передавать его извне, чем хранить прямо в сервисе)

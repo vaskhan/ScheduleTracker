@@ -15,7 +15,7 @@ typealias AllStation = Components.Schemas.StationsList
     func getAllStations() async throws -> AllStation
 }
 
-final class StationtService: StationListServiceProtocol {
+actor StationtService: StationListServiceProtocol {
     private let client: Client
     private let apikey: String
     
