@@ -4,8 +4,9 @@
 //
 //  Created by Василий Ханин on 12.06.2025.
 //
+import Combine
 
-final class APIServicesContainer {
+final class APIServicesContainer: ObservableObject {
     let nearestStationsService: NearestStationsServiceProtocol
     let copyrightService: CopyrightServiceProtocol
     let searchService: SearchServiceProtocol
