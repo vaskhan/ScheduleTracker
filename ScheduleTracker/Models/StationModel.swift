@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct StationModel: Identifiable, Hashable {
+struct StationModel: Identifiable, Sendable {
     let id: String
     let title: String
 }

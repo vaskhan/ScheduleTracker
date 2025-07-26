@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CarrierInfoModel: Identifiable {
+struct CarrierInfoModel: Identifiable, Sendable {
     var id: Int { code }
     let code: Int
     let title: String

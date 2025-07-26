@@ -12,10 +12,12 @@ struct ErrorInternetView: View {
         ZStack {
             Color("nightOrDayColor").ignoresSafeArea()
             VStack (spacing: 16) {
+                Spacer()
                 Image("errorInternetImage")
                 Text("Нет интернета")
                     .font(.custom("SFPro-Bold", size: 24))
                     .foregroundStyle(Color("dayOrNightColor"))
+                Spacer()
             }
         }
     }

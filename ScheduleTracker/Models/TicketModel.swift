@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TicketModel: Hashable, Identifiable {
+struct TicketModel: Hashable, Identifiable, Sendable {
     let id = UUID()
     let operatorName: String
     let date: String
@@ -16,6 +16,6 @@ struct TicketModel: Hashable, Identifiable {
     let duration: String
     let withTransfer: Bool
     let operatorLogo: String
-    let note: String?
+    let transfer: String?
     let carrierCode: Int?
 }

@@ -97,7 +97,7 @@ final class TicketListViewModel: ObservableObject, ErrorHandleable {
                 duration: durationString,
                 withTransfer: seg.has_transfers ?? false,
                 operatorLogo: carrier?.logo ?? "",
-                note: seg.stops,
+                transfer: seg.stops,
                 carrierCode: carrier?.code.flatMap { Int($0) }
             )
         }

@@ -50,40 +50,41 @@ struct TicketListView: View {
                                 }
                             }
                         }
-                        Button(action: { coordinator.path.append(EnumAppRoute.filters) }) {
-                            HStack(spacing: 4) {
-                                Text("Уточнить время")
-                                    .font(.custom("SFPro-Bold", size: 17))
-                                    .foregroundStyle(Color(.white))
-                                if coordinator.isFiltersValid {
-                                    Circle()
-                                        .foregroundStyle(Color("redUniversal"))
-                                        .frame(width: 8, height: 8)
-                                }
+                    }
+                    Button(action: { coordinator.path.append(EnumAppRoute.filters) }) {
+                        HStack(spacing: 4) {
+                            Text("Уточнить время")
+                                .font(.custom("SFPro-Bold", size: 17))
+                                .foregroundStyle(Color(.white))
+                            if coordinator.isFiltersValid {
+                                Circle()
+                                    .foregroundStyle(Color("redUniversal"))
+                                    .frame(width: 8, height: 8)
                             }
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 20)
                         }
-                        .background(Color("blueUniversal"))
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                        .padding(.bottom, 24)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 20)
                     }
-                }
-                .padding(.horizontal, 16)
-                .navigationBarBackButtonHidden(true)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: { dismiss() }) {
-                            Image("leftChevron")
-                                .renderingMode(.template)
-                                .foregroundStyle(Color("dayOrNightColor"))
-                        }
-                    }
+                    .background(Color("blueUniversal"))
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .padding(.bottom, 24)
                 }
             }
-            .task {
-                await viewModel.loadTickets()
+            .padding(.horizontal, 16)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: { dismiss() }) {
+                        Image("leftChevron")
+                            .renderingMode(.template)
+                            .foregroundStyle(Color("dayOrNightColor"))
+                    }
+                }
             }
         }
+        .task {
+            await viewModel.loadTickets()
+        }
     }
-    
+}
+
