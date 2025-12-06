@@ -7,85 +7,101 @@
 
 import SwiftUI
 
-
 struct CarrierInfoView: View {
     @Environment(\.dismiss) var dismiss
-    let carrier: TicketModel
+    @ObservedObject var viewModel: CarrierInfoViewModel
+    let code: String
     
     var body: some View {
         ZStack {
             Color("nightOrDayColor").ignoresSafeArea()
-            VStack(spacing: 16) {
-                Image(carrier.operatorLogo)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 343, height: 104)
-                    .padding(.top, 16)
-                VStack(alignment: .leading, spacing: 16) {
-                    Text(carrier.operatorName == "РЖД" ? "ОАО «РЖД»" : carrier.operatorName)
-                        .font(.custom("SFPro-Bold", size: 24))
-                        .foregroundStyle(Color("dayOrNightColor"))
-                    VStack(alignment: .leading, spacing: 0) {
-                        // email
-                        Text("E-mail")
-                            .font(.custom("SFPro-Regular", size: 16))
-                            .foregroundStyle(Color("dayOrNightColor"))
-                            .padding(.top, 12)
-                        if let mailURL = URL(string: "mailto:i.lozgkina@yandex.ru") {
-                            Link("i.lozgkina@yandex.ru", destination: mailURL)
-                                .font(.custom("SFPro-Regular", size: 16))
-                                .foregroundColor(.blue)
-                                .padding(.bottom, 12)
+            StateWrapperView(isLoading: viewModel.isLoading, errorType: viewModel.errorType) {
+                Group {
+                    if let carrier = viewModel.carrier {
+                        VStack(spacing: 16) {
+                            if let logo = carrier.logo, let url = URL(string: logo) {
+                                AsyncImage(url: url) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        ProgressView()
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    case .failure:
+                                        Image(systemName: "photo")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    @unknown default:
+                                        EmptyView()
+                                    }
+                                }
+                                .frame(width: 343, height: 104)
+                                .clipped()
+                            }
+                            VStack(alignment: .leading, spacing: 16) {
+                                Text(carrier.title)
+                                    .font(.custom("SFPro-Bold", size: 24))
+                                    .foregroundStyle(Color("dayOrNightColor"))
+                                if let email = carrier.email {
+                                    Text("E-mail")
+                                        .font(.custom("SFPro-Regular", size: 16))
+                                        .foregroundStyle(Color("dayOrNightColor"))
+                                        .padding(.top, 12)
+                                    if let mailURL = URL(string: "mailto:\(email)") {
+                                        Link(email, destination: mailURL)
+                                            .font(.custom("SFPro-Regular", size: 16))
+                                            .foregroundColor(.blue)
+                                            .padding(.bottom, 12)
+                                    }
+                                }
+                                if let phone = carrier.phone {
+                                    Text("Телефон")
+                                        .font(.custom("SFPro-Regular", size: 16))
+                                        .foregroundStyle(Color("dayOrNightColor"))
+                                        .padding(.top, 12)
+                                    if let telURL = URL(string: "tel:\(phone.onlyDigits())") {
+                                        Link(phone, destination: telURL)
+                                            .font(.custom("SFPro-Regular", size: 16))
+                                            .foregroundColor(.blue)
+                                            .padding(.bottom, 12)
+                                    }
+                                }
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading, 16)
+                            Spacer()
                         }
-                        // телефон
-                        Text("Телефон")
-                            .font(.custom("SFPro-Regular", size: 16))
-                            .foregroundStyle(Color("dayOrNightColor"))
-                            .padding(.top, 12)
-                        Link("+7 (904) 329-27-71", destination: URL(string: "tel:+79043292771")!)
-                            .font(.custom("SFPro-Regular", size: 16))
-                            .foregroundColor(.blue)
-                            .padding(.bottom, 12)
+                        .padding()
                     }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 16)
-                Spacer()
-            }
-            .padding()
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: { dismiss() }) {
-                        Image("leftChevron")
-                            .renderingMode(.template)
-                            .foregroundStyle(Color("dayOrNightColor"))
-                    }
-                }
-                ToolbarItem(placement: .principal) {
-                    Text("Информация о перевозчике")
-                        .font(.custom("SFPro-Bold", size: 17))
-                        .foregroundStyle(Color("dayOrNightColor"))
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: { dismiss() }) {
+                    Image("leftChevron")
+                        .renderingMode(.template)
+                        .foregroundStyle(Color("dayOrNightColor"))
+                }
+            }
+            ToolbarItem(placement: .principal) {
+                Text("Информация о перевозчике")
+                    .font(.custom("SFPro-Bold", size: 17))
+                    .foregroundStyle(Color("dayOrNightColor"))
+            }
+        }
+        .task {
+            await viewModel.fetchCarrier(code: code)
+        }
     }
 }
-#if DEBUG
-struct CarrierInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        CarrierInfoView(
-            carrier: TicketModel(
-                operatorName: "РЖД",
-                date: "14 января",
-                departure: "22:30",
-                arrival: "08:15",
-                duration: "20 часов",
-                withTransfer: true,
-                operatorLogo: "RJDImage",
-                note: "С пересадкой в Костроме"
-            )
-        )
+
+extension String {
+    func onlyDigits() -> String {
+        filter { $0.isNumber }
     }
 }
-#endif

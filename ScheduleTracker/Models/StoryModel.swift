@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Story: Identifiable {
+struct Story: Identifiable, Sendable {
     let id = UUID()
     let previewImageName: String
     let fullImageName: String

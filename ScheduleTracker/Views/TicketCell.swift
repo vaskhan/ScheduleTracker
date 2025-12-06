@@ -14,24 +14,49 @@ struct TicketCell: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
-                Image(ticket.operatorLogo)
-                    .resizable()
-                    .frame(width: 38, height: 38)
+                if let url = URL(string: ticket.operatorLogo) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                        case .failure:
+                            Image(systemName: "photo.on.rectangle")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 38, height: 38)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                    .frame(width: 38, height: 38, alignment: .center)
+                    .background(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .clipped()
+                }
+                
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(ticket.operatorName)
-                        .font(.custom("SFPro-Regular", size: 17))
-                        .foregroundStyle(Color("blackUniversal"))
-                    if let note = ticket.note {
-                        Text(note)
+                    HStack {
+                        Text(ticket.operatorName)
+                            .font(.custom("SFPro-Regular", size: 17))
+                            .foregroundStyle(Color("blackUniversal"))
+                        
+                        Spacer()
+                        Text(ticket.date)
+                            .font(.custom("SFPro-Regular", size: 12))
+                            .foregroundStyle(Color("blackUniversal"))
+                    }
+                    if ticket.withTransfer {
+                        Text("С пересадкой в \(String(describing: ticket.transfer))")
                             .font(.custom("SFPro-Regular", size: 17))
                             .foregroundStyle(Color("redUniversal"))
                     }
                 }
-                Spacer()
-                Text(ticket.date)
-                    .font(.custom("SFPro-Regular", size: 12))
-                    .foregroundStyle(Color("blackUniversal"))
+                
             }
             .padding(.bottom, 5)
             HStack {
@@ -56,5 +81,6 @@ struct TicketCell: View {
         .background(Color(.lightGrayUniversal))
         .clipShape(RoundedRectangle(cornerRadius: 24))
     }
+    
 }
 

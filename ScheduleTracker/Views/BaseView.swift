@@ -10,6 +10,7 @@ import SwiftUI
 struct BaseView: View {
     @StateObject private var coordinator = NavigationCoordinator()
     @StateObject private var viewModel = MockReelsModel()
+    @EnvironmentObject var services: APIServicesContainer
     
     var body: some View {
         ZStack {
@@ -22,7 +23,8 @@ struct BaseView: View {
                                 .renderingMode(.template)
                         }
                     
-                    SettingsView()
+                    SettingsView(viewModel: SettingsViewModel(copyrightService: services.copyrightService))
+                    
                         .tabItem {
                             Image(.gearTabItem)
                                 .renderingMode(.template)
@@ -32,15 +34,36 @@ struct BaseView: View {
                 .navigationDestination(for: EnumAppRoute.self) { route in
                     switch route {
                     case .cityPicker(let fromField):
-                        ChangeCityView(coordinator: coordinator, fromField: fromField)
+                        ChangeCityView(
+                            coordinator: coordinator,
+                            fromField: fromField,
+                            stationListService: services.allStationService
+                        )
                     case .stationPicker(let city, let fromField):
-                        ChangeStationView(coordinator: coordinator, city: city, fromField: fromField)
+                        ChangeStationView(
+                            coordinator: coordinator,
+                            city: city,
+                            fromField: fromField,
+                            stationListService: services.allStationService
+                        )
                     case .tickets:
-                        TicketListView(coordinator: coordinator)
+                        TicketListView(
+                            coordinator: coordinator,
+                            viewModel: TicketListViewModel(
+                                searchService: services.searchService,
+                                fromStation: coordinator.selectedStationFromCode,
+                                toStation: coordinator.selectedStationToCode,
+                                showTransfers: coordinator.showTransfers,
+                                timeFilters: coordinator.timeFilters
+                            )
+                        )
                     case .filters:
                         FiltersView(coordinator: coordinator)
                     case .carrierInfo(let ticket):
-                        CarrierInfoView(carrier: ticket)
+                        CarrierInfoView(
+                            viewModel: CarrierInfoViewModel(service: services.carrierService),
+                            code: ticket.carrierCode.map(String.init) ?? ""
+                        )
                     }
                     
                 }
